@@ -1,71 +1,69 @@
-/** 枚举类型 */
-
-// 数字枚举
-enum Role {
-  Reporter = 1,
-  Developer,
-  Maintainer,
-  Owner,
-  Guest
+interface List {
+  readonly id: number;
+  name: string;
+  // [x: string]: any;
+  age?: number;
 }
-// console.log(Role.Reporter)
-// console.log(Role)
-
-// 字符串枚举
-enum Message {
-  Success = '恭喜你，成功了',
-  Fail = '抱歉，失败了'
+interface Result {
+  data: List[]
 }
-// console.log(Message)
-
-// 异构枚举
-enum Answer {
-  N,
-  Y = 'Yes'
+function render(result: Result) {
+  result.data.forEach((value) => {
+      console.log(value.id, value.name)
+      if (value.age) {
+          console.log(value.age)
+      }
+      // value.id++
+  })
 }
-// console.log(Answer)
-
-// 枚举成员
-// Role.Reporter = 0
-enum Char {
-  // const member
-  a,
-  b = Char.a,
-  c = 1 + 3,
-  // computed member
-  d = Math.random(),
-  e = '123'.length,
-  f = 4
+let result = {
+  data: [
+      {id: 1, name: 'A', sex: 'male'},
+      {id: 2, name: 'B', age: 10}
+  ]
 }
-// console.log(Char)
+render(result)
 
-// 常量枚举
-const enum Month {
-  Jan,
-  Feb,
-  Mar,
-  Apr = Month.Mar + 1,
-  // May = () => 5
+interface StringArray {
+  [index: number]: string
 }
-let month = [Month.Jan, Month.Feb, Month.Mar]
+let chars: StringArray = ['a', 'b']
 
-// 枚举类型
-enum E { a, b }
-enum F { a = 0, b = 1 }
-enum G { a = 'apple', b = 'banana' }
 
-let e: E = 3
-let f: F = 3
-// console.log(E, F, G)
-// console.log(e, f)
-// console.log(e === f)
 
-let e1: E.a = 3
-let e2: E.b = 3
-let e3: E.a = 3
-// console.log(e1 === e2) // 不能比较
-// console.log(e1 === e3) // 可以比较
+interface Names {
+  [x: string]: any;
+  y: number;
+  [z: number]: number;
+}
+// console.log(Names)
 
-let g1: G = G.a
-let g2: G.a = G.a
-// console.log(g1, g2)
+
+
+// let add: (x: number, y: number) => number
+// interface Add {
+//     (x: number, y: number): number
+// }
+type Add = (x: number, y: number) => number
+let add: Add = (a: number, b: number) => a + b
+
+
+
+interface Lib {
+  (): void;
+  version: string;
+  doSomething(): void;
+}
+
+function getLib() {
+  let lib = (() => {}) as Lib
+  lib.version = '1.0.0'
+  lib.doSomething = () => {}
+  return lib;
+}
+// console.log(getLib())
+let lib1 = getLib()
+lib1()
+let lib2 = getLib()
+lib2.doSomething()
+// console.log(lib1 === lib2)
