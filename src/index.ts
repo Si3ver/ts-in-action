@@ -1,69 +1,48 @@
-interface List {
-  readonly id: number;
-  name: string;
-  // [x: string]: any;
-  age?: number;
-}
-interface Result {
-  data: List[]
-}
-function render(result: Result) {
-  result.data.forEach((value) => {
-      console.log(value.id, value.name)
-      if (value.age) {
-          console.log(value.age)
-      }
-      // value.id++
-  })
-}
-let result = {
-  data: [
-      {id: 1, name: 'A', sex: 'male'},
-      {id: 2, name: 'B', age: 10}
-  ]
-}
-render(result)
-
-interface StringArray {
-  [index: number]: string
-}
-let chars: StringArray = ['a', 'b']
-
-
-
-interface Names {
-  [x: string]: any;
-  y: number;
-  [z: number]: number;
-}
-// console.log(Names)
-
-
-
-// let add: (x: number, y: number) => number
-// interface Add {
-//     (x: number, y: number): number
-// }
-type Add = (x: number, y: number) => number
-let add: Add = (a: number, b: number) => a + b
-
-
-
-interface Lib {
-  (): void;
-  version: string;
-  doSomething(): void;
+// 函数定义
+function add1(x: number, y: number) {
+  return x + y
 }
 
-function getLib() {
-  let lib = (() => {}) as Lib
-  lib.version = '1.0.0'
-  lib.doSomething = () => {}
-  return lib;
+let add2: (x: number, y: number) => number
+
+type add3 = (x: number, y: number) => number
+
+interface add4 {
+  (x: number, y: number): number
 }
-// console.log(getLib())
-let lib1 = getLib()
-lib1()
-let lib2 = getLib()
-lib2.doSomething()
-// console.log(lib1 === lib2)
+
+// add1(1, 2, 3)
+
+function add5(x: number, y?: number) {
+  return y ? x + y : x
+}
+// console.log(add5(1))
+
+function add6(x: number, y = 0, z: number, q = 1) {
+  return x + y + z + q
+}
+// console.log(add6(1, undefined, 3))
+
+function add7(x: number, ...rest: number[]) {
+  return x + rest.reduce((pre, cur) => pre + cur);
+}
+// console.log(add7(1, 2, 3, 4, 5))
+
+function add8(...rest: number[]): number;
+function add8(...rest: string[]): string;
+function add8(...rest: boolean[]): string;
+function add8(...rest: any[]) {
+  let first = rest[0];
+  if (typeof first === 'number') {
+      return rest.reduce((pre, cur) => pre + cur);
+  }
+  if (typeof first === 'string') {
+      return rest.join('');
+  }
+  // if (typeof first === 'boolean') {
+  //   return rest.join('');
+  // }
+}
+console.log(add8(1, 2))
+console.log(add8('a', 'b', 'c'))
+console.log(add8(true, true, false))
