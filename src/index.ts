@@ -1,48 +1,80 @@
-// 函数定义
-function add1(x: number, y: number) {
-  return x + y
-}
+/**
+ * 【类】
+ * “类的成员属性”都是实例属性，而不是原型属性，“类的成员方法”都是“原型”方法
+ */
 
-let add2: (x: number, y: number) => number
-
-type add3 = (x: number, y: number) => number
-
-interface add4 {
-  (x: number, y: number): number
-}
-
-// add1(1, 2, 3)
-
-function add5(x: number, y?: number) {
-  return y ? x + y : x
-}
-// console.log(add5(1))
-
-function add6(x: number, y = 0, z: number, q = 1) {
-  return x + y + z + q
-}
-// console.log(add6(1, undefined, 3))
-
-function add7(x: number, ...rest: number[]) {
-  return x + rest.reduce((pre, cur) => pre + cur);
-}
-// console.log(add7(1, 2, 3, 4, 5))
-
-function add8(...rest: number[]): number;
-function add8(...rest: string[]): string;
-function add8(...rest: boolean[]): string;
-function add8(...rest: any[]) {
-  let first = rest[0];
-  if (typeof first === 'number') {
-      return rest.reduce((pre, cur) => pre + cur);
+abstract class Animal {
+  eat() {
+      console.log('eat')
   }
-  if (typeof first === 'string') {
-      return rest.join('');
-  }
-  // if (typeof first === 'boolean') {
-  //   return rest.join('');
-  // }
+  abstract sleep(): void
 }
-console.log(add8(1, 2))
-console.log(add8('a', 'b', 'c'))
-console.log(add8(true, true, false))
+// let animal = new Animal()
+
+class Dog extends Animal {
+  constructor(name: string) {
+      super()
+      this.name = name
+      this.pri()
+  }
+  public name: string = 'dog'
+  run() {}
+  private pri() {}
+  protected pro() {}
+  readonly legs: number = 4
+  static food: string = 'bones'
+  sleep() {
+      console.log('Dog sleep')
+  }
+}
+console.log(Dog.prototype)
+let dog = new Dog('wangwang')
+// console.log(dog)
+// dog.pri()
+// dog.pro()
+console.log(Dog.food)
+// console.log(dog.food)
+dog.eat()
+
+class Husky extends Dog {
+  constructor(name: string, public color: string) {
+      super(name)
+      this.color = color
+      // this.pri()
+      this.pro()
+  }
+  // color: string
+}
+console.log(Husky.food)
+
+class Cat extends Animal {
+  sleep() {
+      console.log('Cat sleep')
+  }
+}
+let cat = new Cat()
+
+let animals: Animal[] = [dog, cat]
+// animals.forEach(i => {
+//   i.sleep()
+// })
+
+
+
+
+class Workflow {
+  step1() {
+      return this
+  }
+  step2() {
+      return this
+  }
+}
+new Workflow().step1().step2()
+
+class MyFlow extends Workflow {
+  next() {
+      return this
+  }
+}
+new MyFlow().next().step1().next().step2()
